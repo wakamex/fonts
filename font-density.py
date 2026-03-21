@@ -86,7 +86,7 @@ def find_font_file(alias):
 def main():
     parser = argparse.ArgumentParser(description="Measure font information density")
     parser.add_argument("--size", type=float, default=16, help="Font size in px (default: 16)")
-    parser.add_argument("--spacing", type=float, default=1.4, help="Line spacing multiplier (default: 1.4)")
+    parser.add_argument("--spacing", type=float, default=1.0, help="Line spacing multiplier (default: 1.0)")
     parser.add_argument("--sort", choices=["density", "name", "width", "height"], default="density",
                         help="Sort by (default: density)")
     args = parser.parse_args()
