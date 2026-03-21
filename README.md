@@ -23,6 +23,7 @@ D2Coding v1.3.2 (ligature variant) patched with Nerd Font icons and Twemoji COLR
 
 - `merge_twemoji.py` — merges a Twemoji COLRv0 font into any TrueType font
 - `emoji-test.py` — tests emoji coverage (supports .ttf, .otf, .woff2)
+- `font-density.py` — measures information density of all fonts in [programmingfonts](https://github.com/braver/programmingfonts)
 
 ### Rebuild
 
@@ -33,3 +34,180 @@ python3 merge_twemoji.py base.ttf twemoji-colr.ttf output.ttf
 # 3. Validate
 python3 emoji-test.py output.ttf
 ```
+
+## Information density (chars per 1000×1000px at 16px, 1.4 line spacing)
+
+Higher = more code on screen. **Bold** = fonts I use.
+
+| # | Font | Width | Height | Density |
+|---|------|-------|--------|---------|
+| 1 | Proggy Clean | 7.0px | 18.6px | 7,665 |
+| 2 | Effects Eighty | 7.2px | 18.1px | 7,664 |
+| 3 | VT323 | 6.6px | 22.4px | 6,718 |
+| 4 | Sudo | 7.0px | 22.4px | 6,377 |
+| 5 | Scientifica | 7.3px | 22.4px | 6,138 |
+| 6 | Bront Ubuntu Mono | 8.0px | 22.4px | 5,580 |
+| 7 | Fairfax | 8.0px | 22.4px | 5,580 |
+| 8 | Fairfax HD | 8.0px | 22.4px | 5,580 |
+| 9 | Fairfax Hax HD | 8.0px | 22.4px | 5,580 |
+| 10 | Fairfax Serif | 8.0px | 22.4px | 5,580 |
+| 11 | Fixedsys with Ligatures | 8.0px | 22.4px | 5,580 |
+| 12 | Lekton | 8.0px | 22.4px | 5,580 |
+| 13 | Nanum Gothic Coding | 8.0px | 22.4px | 5,580 |
+| 14 | Spleen | 8.0px | 22.4px | 5,580 |
+| 15 | Ubuntu Mono | 8.0px | 22.4px | 5,580 |
+| 16 | GNU Unifont | 8.0px | 22.4px | 5,580 |
+| 17 | UnifontEX | 8.0px | 22.4px | 5,580 |
+| 18 | Inconsolata OTF | 8.0px | 22.6px | 5,525 |
+| 19 | Comic Shanns | 8.2px | 22.4px | 5,470 |
+| 20 | Monofur | 8.0px | 22.9px | 5,462 |
+| 21 | Fifteen | 6.0px | 30.8px | 5,411 |
+| 22 | Quinze | 6.0px | 30.8px | 5,411 |
+| 23 | Terminus (TTF) | 8.0px | 23.1px | 5,407 |
+| 24 | Envy Code B | 8.6px | 21.8px | 5,348 |
+| 25 | Inconsolata | 8.0px | 23.5px | 5,319 |
+| 26 | InconsolataGo | 8.0px | 23.5px | 5,319 |
+| 27 | Fantasque Sans Mono | 8.3px | 22.9px | 5,262 |
+| 28 | **D2Coding** | **8.0px** | **24.2px** | **5,166** |
+| 29 | 3270 | 8.6px | 22.4px | 5,166 |
+| 30 | Cozette | 8.0px | 24.3px | 5,152 |
+| 31 | Gohufont 11 | 8.7px | 22.4px | 5,115 |
+| 32 | Anonymous Pro | 8.7px | 22.4px | 5,111 |
+| 33 | AudioLink Mono | 9.2px | 21.3px | 5,107 |
+| 34 | Code New Roman | 8.8px | 22.4px | 5,074 |
+| 35 | Computer Modern Unicode Typewriter | 8.4px | 23.7px | 5,013 |
+| 36 | IBM VGA 9x16 | 9.0px | 22.4px | 4,960 |
+| 37 | Eirian | 8.0px | 25.5px | 4,919 |
+| 38 | Gohufont 14 | 9.1px | 22.4px | 4,884 |
+| 39 | Agave | 8.0px | 25.9px | 4,826 |
+| 40 | Iosevka | 8.0px | 26.4px | 4,729 |
+| 41 | Bedstead | 9.6px | 22.4px | 4,650 |
+| 42 | DPSDbeyond | 9.6px | 22.4px | 4,650 |
+| 43 | Nimbus Mono | 9.6px | 22.4px | 4,650 |
+| 44 | Old Timey Code | 9.6px | 22.4px | 4,650 |
+| 45 | APL2741 | 9.6px | 22.6px | 4,631 |
+| 46 | Courier Prime | 9.6px | 22.6px | 4,617 |
+| 47 | Courier Prime Code | 9.6px | 22.6px | 4,617 |
+| 48 | Courier Prime Sans | 9.6px | 22.6px | 4,617 |
+| 49 | Serious Shanns | 8.7px | 24.9px | 4,616 |
+| 50 | Atkinson Hyperlegible Mono | 10.1px | 21.4px | 4,613 |
+| 51 | Fixedsys | 8.8px | 24.7px | 4,607 |
+| 52 | Comic Mono | 8.7px | 24.9px | 4,599 |
+| 53 | Share Tech Mono | 8.6px | 25.2px | 4,584 |
+| 54 | Myna | 7.8px | 28.2px | 4,567 |
+| 55 | GNU Freefont | 9.6px | 22.8px | 4,564 |
+| 56 | DaddyTimeMono | 9.2px | 23.9px | 4,552 |
+| 57 | M PLUS Code | 8.0px | 27.7px | 4,518 |
+| 58 | Aporetic Sans Mono | 8.4px | 26.4px | 4,503 |
+| 59 | Aporetic Serif Mono | 8.4px | 26.4px | 4,503 |
+| 60 | Monaspace Argon | 9.9px | 22.4px | 4,500 |
+| 61 | Monaspace Krypton | 9.9px | 22.4px | 4,500 |
+| 62 | Monaspace Neon | 9.9px | 22.4px | 4,500 |
+| 63 | Monaspace Radon | 9.9px | 22.4px | 4,500 |
+| 64 | Monaspace Xenon | 9.9px | 22.4px | 4,500 |
+| 65 | Envy Code R | 8.6px | 25.9px | 4,489 |
+| 66 | Mononoki | 9.0px | 25.2px | 4,424 |
+| 67 | Lotion | 8.5px | 26.9px | 4,387 |
+| 68 | Average Mono | 9.7px | 23.7px | 4,369 |
+| 69 | Commit Mono | 9.6px | 24.6px | 4,227 |
+| 70 | BigBlue Terminal | 10.7px | 22.4px | 4,185 |
+| 71 | Cutive Mono | 9.7px | 24.7px | 4,185 |
+| 72 | BPmono | 9.6px | 24.9px | 4,178 |
+| 73 | Victor Mono | 8.7px | 27.5px | 4,168 |
+| 74 | PT Mono | 9.6px | 25.1px | 4,152 |
+| 75 | Monofoki | 9.0px | 26.9px | 4,136 |
+| 76 | Lyth Mono | 9.7px | 25.1px | 4,124 |
+| 77 | IBM Courier | 9.6px | 25.3px | 4,118 |
+| 78 | IBM Courier (dot) | 9.6px | 25.3px | 4,118 |
+| 79 | IBM Courier (slash) | 9.6px | 25.3px | 4,118 |
+| 80 | Cousine | 9.6px | 25.4px | 4,104 |
+| 81 | Cascadia Code | 9.4px | 26.0px | 4,097 |
+| 82 | Ioskeley Mono | 9.6px | 25.4px | 4,097 |
+| 83 | Luculent | 8.8px | 28.0px | 4,081 |
+| 84 | Geist | 9.6px | 25.5px | 4,079 |
+| 85 | APL385 | 9.6px | 25.6px | 4,075 |
+| 86 | Liberation Mono | 9.6px | 25.8px | 4,034 |
+| 87 | Go Mono | 9.6px | 25.9px | 4,022 |
+| 88 | Borg Sans Mono | 9.6px | 26.1px | 3,994 |
+| 89 | SK Modernist Mono | 10.0px | 25.1px | 3,982 |
+| 90 | Bront DejaVu Sans Mono | 9.6px | 26.1px | 3,981 |
+| 91 | DejaVu Markup | 9.6px | 26.1px | 3,981 |
+| 92 | Hack | 9.6px | 26.1px | 3,981 |
+| 93 | Hack Ligatured | 9.6px | 26.1px | 3,981 |
+| 94 | Mensch | 9.6px | 26.1px | 3,981 |
+| 95 | Inconsolata-g | 9.6px | 26.3px | 3,967 |
+| 96 | Heterodox Mono | 9.1px | 27.9px | 3,956 |
+| 97 | Anka/Coder | 9.6px | 26.4px | 3,947 |
+| 98 | Adwaita Mono | 9.6px | 26.4px | 3,940 |
+| 99 | ZhiMa Mono | 9.6px | 26.4px | 3,940 |
+| 100 | Latin Modern Mono | 8.4px | 30.3px | 3,930 |
+| 101 | Bitstream Vera Sans Mono | 9.6px | 26.5px | 3,915 |
+| 102 | Verily Serif Mono | 9.6px | 26.5px | 3,914 |
+| 103 | Chivo Mono | 9.6px | 26.7px | 3,907 |
+| 104 | JuliaMono | 9.6px | 26.7px | 3,907 |
+| 105 | CamingoCode | 8.8px | 29.1px | 3,902 |
+| 106 | Fira Mono | 9.6px | 26.9px | 3,875 |
+| 107 | Indicate Mono | 9.6px | 26.9px | 3,875 |
+| 108 | League Mono | 9.6px | 26.9px | 3,875 |
+| 109 | MD IO | 9.6px | 26.9px | 3,875 |
+| 110 | Recursive | 9.6px | 26.9px | 3,875 |
+| 111 | Sligoil | 9.6px | 26.9px | 3,875 |
+| 112 | Binchotan Sharp | 8.0px | 32.4px | 3,861 |
+| 113 | saxMono | 8.8px | 29.6px | 3,855 |
+| 114 | Sometype Mono | 9.3px | 28.0px | 3,848 |
+| 115 | Aurulent Sans Mono | 9.6px | 27.1px | 3,836 |
+| 116 | Edlo | 9.6px | 27.1px | 3,836 |
+| 117 | Twilio Sans Mono | 9.6px | 27.2px | 3,824 |
+| 118 | Reddit Sans Mono | 9.0px | 29.1px | 3,819 |
+| 119 | Luxi Mono | 9.6px | 27.4px | 3,801 |
+| 120 | Drafting* Mono | 9.6px | 27.4px | 3,799 |
+| 121 | Cartograph | 9.8px | 26.9px | 3,780 |
+| 122 | Ellograph | 9.8px | 26.9px | 3,780 |
+| 123 | Fragment Mono | 9.9px | 26.9px | 3,762 |
+| 124 | Sono | 9.9px | 26.9px | 3,756 |
+| 125 | 0xProto | 9.9px | 26.9px | 3,750 |
+| 126 | Paper Mono | 9.9px | 26.9px | 3,750 |
+| 127 | TeX Gyre Cursor | 9.6px | 27.9px | 3,735 |
+| 128 | Google Sans Code | 9.6px | 28.0px | 3,714 |
+| 129 | NotCourierSans | 9.6px | 28.1px | 3,711 |
+| 130 | Proggy Vector | 9.6px | 28.0px | 3,710 |
+| 131 | Hasklig | 9.6px | 28.2px | 3,699 |
+| 132 | Office Code Pro | 9.6px | 28.2px | 3,699 |
+| 133 | Source Code Pro | 9.6px | 28.2px | 3,699 |
+| 134 | Fira Code | 9.8px | 27.6px | 3,683 |
+| 135 | Azeret Mono | 10.4px | 26.1px | 3,678 |
+| 136 | Generic Mono | 10.2px | 26.9px | 3,633 |
+| 137 | psudoFont Liga Mono | 9.6px | 29.1px | 3,580 |
+| 138 | iA Writer Mono | 9.6px | 29.1px | 3,577 |
+| 139 | Lilex | 9.6px | 29.1px | 3,577 |
+| 140 | Maple | 9.6px | 29.1px | 3,577 |
+| 141 | Overpass Mono | 9.9px | 28.4px | 3,577 |
+| 142 | IBM Plex Mono | 9.6px | 29.1px | 3,577 |
+| 143 | Annotation Mono | 10.0px | 28.0px | 3,571 |
+| 144 | DM Mono | 9.6px | 29.2px | 3,571 |
+| 145 | Nova Mono | 9.0px | 31.2px | 3,565 |
+| 146 | B612 Mono | 10.4px | 27.2px | 3,532 |
+| 147 | JetBrains Mono | 9.6px | 29.6px | 3,522 |
+| 148 | Red Hat Mono | 9.6px | 29.6px | 3,514 |
+| 149 | Gintronic | 10.6px | 26.9px | 3,507 |
+| 150 | Consolamono | 9.4px | 30.7px | 3,478 |
+| 151 | Droid Sans | 9.6px | 30.2px | 3,452 |
+| 152 | Roboto Mono | 9.6px | 30.2px | 3,452 |
+| 153 | Departure Mono | 10.2px | 28.5px | 3,445 |
+| 154 | NK57 Monospace | 10.8px | 26.9px | 3,434 |
+| 155 | Oxygen Mono | 9.6px | 30.4px | 3,428 |
+| 156 | Noto Mono | 9.6px | 30.5px | 3,414 |
+| 157 | Profont | 10.7px | 28.1px | 3,341 |
+| 158 | Martian Mono | 11.2px | 26.9px | 3,321 |
+| 159 | Intel One Mono | 9.8px | 30.9px | 3,292 |
+| 160 | DejaVu Mono | 9.6px | 32.2px | 3,228 |
+| 161 | Meslo | 9.6px | 32.2px | 3,228 |
+| 162 | Monoflow | 10.1px | 30.7px | 3,222 |
+| 163 | Hermit | 9.9px | 31.7px | 3,192 |
+| 164 | MonoLisa | 10.2px | 30.9px | 3,159 |
+| 165 | Monocraft | 10.7px | 29.9px | 3,138 |
+| 166 | Monoid | 10.7px | 29.9px | 3,138 |
+| 167 | Space Mono | 9.8px | 33.2px | 3,078 |
+| 168 | Miracode | 10.7px | 31.7px | 2,954 |
+| 169 | Press Start 2P | 16.0px | 22.4px | 2,790 |
+| 170 | OpenDyslexic Mono | 11.7px | 39.2px | 2,178 |
