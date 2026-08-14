@@ -6,6 +6,7 @@ D2Coding v1.3.2 (ligature variant) patched with Nerd Font icons and Twemoji COLR
 
 | File | Size | Use |
 |------|------|-----|
+| `D2CodingLigature-web.woff2` | 96 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
 | `D2Coding-ligature-NF-Twemoji-noKR.woff2` | 1.9 MB | Web (`@font-face`) |
 | `D2Coding-ligature-NF-Twemoji-noKR.ttf` | 4.2 MB | Desktop / fallback |
 | `D2CodingLigature.ttf` | 5.1 MB | Original (nerd fonts only, no emoji, tighter line spacing) |
@@ -15,9 +16,11 @@ D2Coding v1.3.2 (ligature variant) patched with Nerd Font icons and Twemoji COLR
 ```css
 @font-face {
   font-family: 'D2Coding';
-  src: url('/fonts/D2Coding-ligature-NF-Twemoji-noKR.woff2') format('woff2');
+  src: url('/D2CodingLigature-web.woff2') format('woff2');
 }
 ```
+
+`D2CodingLigature-web.woff2` is built from the customized `D2CodingLigature.ttf`, so it retains the tighter vertical metrics. It covers Latin, Greek, punctuation, currency, arrows, mathematical operators, box drawing, and common technical symbols. The website uses the browser's fallback fonts for emoji.
 
 ### Tools
 
@@ -28,6 +31,9 @@ D2Coding v1.3.2 (ligature variant) patched with Nerd Font icons and Twemoji COLR
 ### Rebuild
 
 ```sh
+# Website subset
+./build_web_font.sh
+
 # 1. Get a Twemoji COLRv0 font (e.g. from mozilla/twemoji-colr releases)
 # 2. Merge into base font
 python3 merge_twemoji.py base.ttf twemoji-colr.ttf output.ttf
