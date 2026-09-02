@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add D2Coding's missing lowercase-i hint correction at 18 ppem."""
+"""Add D2Coding's missing lowercase-i-family hint corrections at 18 ppem."""
 
 import argparse
 import os
@@ -9,30 +9,49 @@ from pathlib import Path
 
 from fontTools.ttLib import TTFont
 
-
-def delta_program(point: int, include_18_ppem: bool) -> list[str]:
-    ppem_deltas = [144, 160, 176] if include_18_ppem else [160, 176]
-    values = [value for delta in ppem_deltas for value in (delta, point)]
-    return [
-        f"NPUSHW[ ]\t/* {len(values) + 1} values pushed */",
-        *(str(value) for value in values),
-        str(len(ppem_deltas)),
-    ]
+REPAIRS = {
+    "i": (2, 5),
+    "uni0456": (2, 5),
+    "uni045D": (9, 16),
+}
 
 
-def replace_once(program: list[str], old: list[str], new: list[str]) -> bool:
-    matches = [
-        index
-        for index in range(len(program) - len(old) + 1)
-        if program[index : index + len(old)] == old
-    ]
-    if not matches:
-        return False
-    if len(matches) != 1:
-        raise ValueError(f"expected one hint sequence, found {len(matches)}")
-    index = matches[0]
-    program[index : index + len(old)] = new
-    return True
+def delta_blocks(program: list[str]):
+    for end, operation in enumerate(program):
+        if not operation.startswith("DELTAP1"):
+            continue
+        start = end - 1
+        while start >= 0 and not (
+            program[start].startswith("PUSH") or program[start].startswith("NPUSH")
+        ):
+            start -= 1
+        if start < 0:
+            continue
+        try:
+            values = [int(value) for value in program[start + 1 : end]]
+        except ValueError:
+            continue
+        if not values or len(values[:-1]) != values[-1] * 2:
+            continue
+        yield start, end, list(zip(values[:-1:2], values[1:-1:2]))
+
+
+def add_18_ppem_delta(program: list[str], point: int) -> bool:
+    for start, end, pairs in delta_blocks(program):
+        if (144, point) in pairs:
+            return False
+        if (160, point) not in pairs or (176, point) not in pairs:
+            continue
+        insertion = pairs.index((160, point))
+        pairs.insert(insertion, (144, point))
+        values = [value for pair in pairs for value in pair]
+        program[start:end] = [
+            f"NPUSHW[ ]\t/* {len(values) + 1} values pushed */",
+            *(str(value) for value in values),
+            str(len(pairs)),
+        ]
+        return True
+    raise ValueError(f"point {point} does not contain the expected 19/20 ppem hint sequence")
 
 
 def patch_font(path: Path, check: bool) -> bool:
@@ -41,25 +60,23 @@ def patch_font(path: Path, check: bool) -> bool:
     if "i" not in glyf:
         raise ValueError("font has no lowercase i")
 
-    glyph = glyf["i"]
-    program = glyph.program.getAssembly()
     changed = False
-
-    for point in (2, 5):
-        old = delta_program(point, include_18_ppem=False)
-        fixed = delta_program(point, include_18_ppem=True)
-        if replace_once(program, old, fixed):
+    for glyph_name, points in REPAIRS.items():
+        if glyph_name not in glyf:
+            continue
+        glyph = glyf[glyph_name]
+        program = glyph.program.getAssembly()
+        glyph_changed = False
+        for point in points:
+            glyph_changed |= add_18_ppem_delta(program, point)
+        if glyph_changed:
+            glyph.program.fromAssembly(program)
             changed = True
-        elif not any(
-            program[index : index + len(fixed)] == fixed
-            for index in range(len(program) - len(fixed) + 1)
-        ):
-            raise ValueError(f"lowercase i does not contain the expected point-{point} hint sequence")
 
     if check:
         if changed:
             font.close()
-            raise ValueError("missing the 18 ppem lowercase-i hint correction")
+            raise ValueError("missing an 18 ppem lowercase-i-family hint correction")
         font.close()
         print(f"ok {path}")
         return False
@@ -69,7 +86,6 @@ def patch_font(path: Path, check: bool) -> bool:
         print(f"unchanged {path}")
         return False
 
-    glyph.program.fromAssembly(program)
     # Loading glyf may load post to establish the glyph order. Preserve the
     # original post bytes instead of needlessly normalizing that table.
     if "post" in font.tables:
