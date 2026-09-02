@@ -27,10 +27,14 @@ D2Coding v1.3.2 (ligature variant) patched with Nerd Font icons and Twemoji COLR
 - `merge_twemoji.py` — merges a Twemoji COLRv0 font into any TrueType font
 - `emoji-test.py` — tests emoji coverage (supports .ttf, .otf, .woff2)
 - `font-density.py` — measures information density of all fonts in [programmingfonts](https://github.com/braver/programmingfonts)
+- `fix_d2coding_i_hint.py` — adds D2Coding's missing lowercase `i` stem correction at 18 ppem, preventing it from rendering one pixel above the baseline
 
 ### Rebuild
 
 ```sh
+# Repair the D2Coding lowercase-i native hint after regenerating a font
+uv run --with fonttools --with brotli python fix_d2coding_i_hint.py D2CodingLigature.ttf
+
 # Website subset
 ./build_web_font.sh
 
