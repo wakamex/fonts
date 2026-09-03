@@ -4,6 +4,8 @@
 
 D2Coding v1.3.2 (ligature variant) patched with Nerd Font icons and Twemoji COLRv0 color emoji. Korean (Hangul) stripped to keep the file size reasonable.
 
+These builds also fix the [upstream 18 ppem native-hinting bug](https://github.com/naver/d2-coding-font/issues/107) that lifts Latin `i` and two related Cyrillic glyphs one pixel above the baseline.
+
 | File | Size | Use |
 |------|------|-----|
 | `D2CodingLigature-web.woff2` | 96 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
