@@ -16,6 +16,7 @@ uv run --no-config --with fonttools pyftsubset "$source_font" \
     --output-file="$output_font" \
     --unicodes="$unicode_ranges" \
     --layout-features='*' \
+    --name-IDs='*' \
     --notdef-glyph \
     --notdef-outline \
     --recommended-glyphs
@@ -33,6 +34,7 @@ names = {
     4: "Clanker Mono",
     6: "ClankerMono-Regular",
     16: "Clanker Mono",
+    18: "Clanker Mono",
 }
 table = font["name"]
 for record in list(table.names):
@@ -41,8 +43,11 @@ for record in list(table.names):
                       record.platEncID, record.langID)
     elif record.nameID in {17, 21, 22}:
         table.removeNames(nameID=record.nameID)
+if not table.getName(13, 3, 1, 0x409):
+    raise SystemExit("the OFL license description (name ID 13) was dropped")
 for record in table.names:
-    if "d2coding" in str(record).lower() and record.nameID not in {0, 13, 14}:
+    # Copyright (0), trademark (7), and license (13, 14) notices may name the original.
+    if "d2coding" in str(record).lower() and record.nameID not in {0, 7, 13, 14}:
         raise SystemExit(f"reserved name left in name ID {record.nameID}: {record}")
 font.save(path)
 print(f"built {path} with {len(font.getGlyphOrder())} glyphs")
