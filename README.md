@@ -26,6 +26,8 @@ These builds also fix the [upstream 18 ppem native-hinting bug](https://github.c
 
 ### Tools
 
+- `build_chart_font.sh` — builds `ClankerMono.ttf`, a 101 KB TTF for matplotlib charts from `D2CodingLigature.ttf`, covering Latin-1, punctuation, currency, arrows, and math. matplotlib cannot read WOFF2. It is renamed because D2Coding's OFL 1.1 reserves the name D2Coding for unmodified copies.
+
 - `merge_twemoji.py` — merges a Twemoji COLRv0 font into any TrueType font
 - `emoji-test.py` — tests emoji coverage (supports .ttf, .otf, .woff2)
 - `font-density.py` — measures information density of all fonts in [programmingfonts](https://github.com/braver/programmingfonts)
