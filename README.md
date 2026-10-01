@@ -1,32 +1,33 @@
 # fonts I like
 
-## D2Coding + Nerd Fonts + Twemoji
+## Clanker Mono: D2Coding + Nerd Fonts + Twemoji
 
-D2Coding v1.3.2 (ligature variant) patched with Nerd Font icons and Twemoji COLRv0 color emoji. Korean (Hangul) stripped to keep the file size reasonable.
+Clanker Mono is the D2Coding 1.3.3 ligature font by NAVER patched with Nerd Font icons, with variants adding Twemoji COLRv0 color emoji and leaving out Korean (Hangul) to keep the file size reasonable. D2Coding's license reserves the name "D2Coding", so these modified builds are renamed. They carry D2Coding 1.3.3's credits; 1.3.3 changed only metadata from 1.3.2, which these were built from.
 
-These builds also fix the [upstream 18 ppem native-hinting bug](https://github.com/naver/d2-coding-font/issues/107) that lifts Latin `i` and two related Cyrillic glyphs one pixel above the baseline.
+These builds also fix the [upstream 18 ppem native-hinting bug](https://github.com/naver/d2codingfont/issues/107) that lifts Latin `i` and two related Cyrillic glyphs one pixel above the baseline. D2Coding 1.3.3 still has it.
 
-| File | Size | Use |
-|------|------|-----|
-| `D2CodingLigature-web.woff2` | 96 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
-| `D2Coding-ligature-NF-Twemoji-noKR.woff2` | 1.9 MB | Web (`@font-face`) |
-| `D2Coding-ligature-NF-Twemoji-noKR.ttf` | 4.2 MB | Desktop / fallback |
-| `D2CodingLigature.ttf` | 5.1 MB | Original (nerd fonts only, no emoji, tighter line spacing) |
+| File | Family | Size | Use |
+|------|--------|------|-----|
+| `ClankerMono-web.woff2` | Clanker Mono | 96 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
+| `ClankerMono-Emoji.woff2` | Clanker Mono Emoji | 1.9 MB | Web (`@font-face`) |
+| `ClankerMono-Emoji.ttf` | Clanker Mono Emoji | 4.2 MB | Desktop / fallback |
+| `ClankerMono-NF.ttf` | Clanker Mono NF | 5.1 MB | Base build: Nerd Fonts only, no emoji, tighter line spacing |
 
 ### Web usage
 
 ```css
 @font-face {
-  font-family: 'D2Coding';
-  src: url('/D2CodingLigature-web.woff2') format('woff2');
+  font-family: 'Clanker Mono';
+  src: url('/ClankerMono-web.woff2') format('woff2');
 }
 ```
 
-`D2CodingLigature-web.woff2` is built from the customized `D2CodingLigature.ttf`, so it retains the tighter vertical metrics. It covers Latin, Greek, punctuation, currency, arrows, mathematical operators, box drawing, and common technical symbols. The website uses the browser's fallback fonts for emoji.
+`ClankerMono-web.woff2` is built from `ClankerMono-NF.ttf`, so it retains the tighter vertical metrics. It covers Latin, Greek, punctuation, currency, arrows, mathematical operators, box drawing, and common technical symbols. The website uses the browser's fallback fonts for emoji.
 
 ### Tools
 
-- `build_chart_font.sh` — builds `ClankerMono.ttf`, a 101 KB TTF for matplotlib charts from `D2CodingLigature.ttf`, covering Latin-1, punctuation, currency, arrows, and math. matplotlib cannot read WOFF2. It is renamed because D2Coding's OFL 1.1 reserves the name D2Coding for unmodified copies.
+- `rename_font.py` — renames a modified D2Coding build and gives it D2Coding 1.3.3's credits and license records
+- `build_chart_font.sh` — builds `ClankerMono.ttf`, a 102 KB TTF for matplotlib charts from `ClankerMono-NF.ttf`, covering Latin-1, punctuation, currency, arrows, and math, since matplotlib cannot read WOFF2
 
 - `merge_twemoji.py` — merges a Twemoji COLRv0 font into any TrueType font
 - `emoji-test.py` — tests emoji coverage (supports .ttf, .otf, .woff2)
@@ -38,13 +39,17 @@ These builds also fix the [upstream 18 ppem native-hinting bug](https://github.c
 
 ```sh
 # Repair the affected D2Coding i-family native hints after regenerating a font
-uv run --with fonttools --with brotli python fix_d2coding_i_hint.py D2CodingLigature.ttf
+uv run --with fonttools --with brotli python fix_d2coding_i_hint.py ClankerMono-NF.ttf
 
 # Audit an upstream or generated font and create a screenshot-ready report
 uv run --with fonttools --with freetype-py python audit_d2coding_hints.py FONT.ttf --output hint-audit.html
 
-# Website subset
+# Rename a modified build
+uv run --with fonttools --with brotli python rename_font.py SOURCE.ttf OUTPUT.ttf "Clanker Mono NF" "what was changed"
+
+# Website and chart subsets
 ./build_web_font.sh
+./build_chart_font.sh
 
 # 1. Get a Twemoji COLRv0 font (e.g. from mozilla/twemoji-colr releases)
 # 2. Merge into base font
@@ -229,3 +234,7 @@ Higher = more code on screen. **Bold** = fonts I use.
 | 168 | Miracode | 10.7px | 31.7px | 2,954 |
 | 169 | Press Start 2P | 16.0px | 22.4px | 2,790 |
 | 170 | OpenDyslexic Mono | 11.7px | 39.2px | 2,178 |
+
+## License
+
+The fonts are licensed under the [SIL Open Font License 1.1](OFL.txt), as modified versions of D2Coding, copyright (c) 2015 NAVER Corporation. The Nerd Fonts icons come from the [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) project, whose icon sets keep their own licenses, listed in its [license audit](https://github.com/ryanoasis/nerd-fonts/blob/master/license-audit.md). The color emoji are [Twemoji](https://github.com/jdecked/twemoji) graphics, copyright Twitter, Inc. and other contributors, licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/). The scripts are licensed under the MIT license in [LICENSE](LICENSE).

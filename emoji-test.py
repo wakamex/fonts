@@ -7,7 +7,7 @@ Supports .ttf, .otf, and .woff2 files. WOFF2 files are decompressed
 to raw OpenType in memory before testing (works around a HarfBuzz
 WOFF2 shaping limitation).
 
-Without arguments, downloads D2CodingLigature.ttf from mihaicosma.com.
+Without arguments, downloads ClankerMono-NF.ttf from mihaicosma.com.
 """
 
 import codecs
@@ -25,7 +25,7 @@ except ImportError:
     import uharfbuzz as hb
 
 EMOJI_TEST_URL = "https://unicode.org/Public/emoji/15.0/emoji-test.txt"
-DEFAULT_FONT_URL = "https://mihaicosma.com/D2CodingLigature.ttf"
+DEFAULT_FONT_URL = "https://mihaicosma.com/ClankerMono-NF.ttf"
 EMOJI_TEST_FILE = os.path.join(os.path.dirname(__file__), "emoji-test.txt")
 
 
@@ -62,7 +62,7 @@ def main():
     if len(sys.argv) > 1:
         file_path = sys.argv[1]
     else:
-        file_path = "D2CodingLigature.ttf"
+        file_path = "ClankerMono-NF.ttf"
 
     if not os.path.exists(file_path):
         if len(sys.argv) > 1:
