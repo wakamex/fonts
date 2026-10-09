@@ -3,7 +3,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-source_font="ClankerMono-NF.ttf"
+source_font="ClankerMono-Regular.ttf"
 output_font="ClankerMono-web.woff2"
 unicode_ranges="U+0000-024F,U+0370-03FF,U+1E00-1EFF,U+2000-206F,U+20A0-22FF,U+2500-27BF"
 
@@ -24,7 +24,7 @@ uv run --with fonttools --with brotli pyftsubset "$source_font" \
 
 uv run --no-config --with fonttools --with brotli python rename_font.py \
     "$output_font" "$output_font" "Clanker Mono" \
-    "Nerd Fonts 2.3.0-RC patching, tighter line spacing, a fix for its 18 ppem hinting of Latin i and two Cyrillic i glyphs, and a subset to Latin, Greek, punctuation, currency, arrows, math, and box drawing"
+    "tighter line spacing and a subset to Latin, Greek, punctuation, currency, arrows, math, and box drawing"
 
 uv run --with fonttools --with brotli python - "$source_font" "$output_font" <<'PY'
 import sys

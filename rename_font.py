@@ -1,61 +1,66 @@
-"""Rename a modified D2Coding build and give it D2Coding 1.3.3's credits.
+"""Rename a modified D2Coding build and keep NAVER's credits.
 
 D2Coding's OFL 1.1 reserves the name "D2Coding", so modified builds carry another family
-name. D2Coding 1.3.3 changed only metadata from 1.3.2 (NAVER instead of NHN in the
-credits, a current license URL), so applying those records here makes a 1.3.2-based build
-match a 1.3.3-based one. Every other name record, including Korean and Mac ones that
-repeated the old name, is dropped.
+name. The copyright, trademark, manufacturer, designer, URL and license records are taken
+from the source font, so a build made from an upstream release carries that release's
+credits. The family, style, unique ID, full name, version and description are written
+fresh. Every other name record, including Korean and Mac ones that repeated the old name,
+is dropped, except the feature names (IDs 256 and up) that the font's OpenType features
+refer to.
 
     uv run --with fonttools --with brotli python rename_font.py SOURCE OUTPUT FAMILY CHANGES
 """
 
 import argparse
-from pathlib import Path
+import re
 import time
+from pathlib import Path
 
-from fontTools.ttLib import TTFont
 from fontTools.misc.timeTools import timestampFromString
+from fontTools.ttLib import TTFont
 
-UPSTREAM = {
-    0: "Copyright (c) 2015-2016 NAVER Corporation. All rights reserved. "
-       "Font designed by FONTRIX Inc.",
-    7: "D2Coding ligature is a registered trademark of NAVER Corporation.",
-    8: "NAVER Corporation",
-    9: "Yong-Rak Park; Jeong-Hwan Yoon; Sang-Min Lee;",
-    11: "https://www.navercorp.com",
-    12: "http://fontrix.co.kr",
-    13: "This Font Software is licensed under the SIL Open Font License, Version 1.1.",
-    14: "https://openfontlicense.org",
-}
-UPSTREAM_VERSION = "Version 1.3.3; Build 20260725"
-UPSTREAM_REVISION = 1.0030059814453125
+CREDITS = (0, 7, 8, 9, 11, 12, 13, 14)
 # Copyright, trademark, and license notices may name the original font.
 NOTICES = {0, 7, 10, 13, 14}
+BOLD = 1 << 5
 
 
 def rename(source: Path, output: Path, family: str, changes: str) -> None:
     font = TTFont(source)
-    names = {
-        **UPSTREAM,
-        1: family,
-        2: "Regular",
-        3: f"{family} Regular",
-        4: family,
-        5: f"{UPSTREAM_VERSION}; modified",
-        6: f"{family.replace(' ', '')}-Regular",
-        10: f"Modified from the D2Coding 1.3.3 ligature font by NAVER Corporation: {changes}.",
-    }
     table = font["name"]
-    table.names = []
+    kept = {
+        record.nameID: record.toUnicode()
+        for record in table.names
+        if (record.platformID, record.langID) == (3, 0x409)
+    }
+    version = kept[5].removesuffix("; modified")
+    upstream_version = re.match(r"Version (\S+?);", version)[1]
+    style = "Bold" if font["OS/2"].fsSelection & BOLD else "Regular"
+    full_name = family if style == "Regular" else f"{family} {style}"
+    feature_names = [
+        record for record in table.names if record.nameID >= 256 and record.platformID == 3
+    ]
+
+    names = {
+        **{name_id: kept[name_id] for name_id in CREDITS},
+        1: family,
+        2: style,
+        3: f"{family} {style}",
+        4: full_name,
+        5: f"{version}; modified",
+        6: f"{family.replace(' ', '')}-{style}",
+        10: f"Modified from the D2Coding {upstream_version} ligature font by NAVER Corporation: "
+            f"{changes}.",
+    }
+    table.names = feature_names
     for name_id, text in names.items():
         table.setName(text, name_id, 3, 1, 0x409)
     for record in table.names:
         if "d2coding" in str(record).lower() and record.nameID not in NOTICES:
             raise SystemExit(f"reserved name left in name ID {record.nameID}: {record}")
-    font["head"].fontRevision = UPSTREAM_REVISION
     font["head"].modified = timestampFromString(time.asctime(time.gmtime()))
     font.save(output)
-    print(f"{output}: {family}, {len(font.getGlyphOrder())} glyphs")
+    print(f"{output}: {full_name}, {len(font.getGlyphOrder())} glyphs")
 
 
 def main() -> None:
