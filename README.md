@@ -9,9 +9,13 @@ Clanker Mono is the [D2Coding](https://github.com/naver/d2-coding-font) 1.4.0 li
 | `ClankerMono-Regular.ttf` | Clanker Mono | 4.1 MB | Base build with Hangul, without icons or emoji |
 | `ClankerMono-Bold.ttf` | Clanker Mono | 4.4 MB | Bold of the base build |
 | `ClankerMono-web.woff2` | Clanker Mono | 91 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
-| `ClankerMono-Emoji.woff2` | Clanker Mono Emoji | 2.4 MB | Web (`@font-face`) |
-| `ClankerMono-Emoji.ttf` | Clanker Mono Emoji | 5.3 MB | Desktop / fallback |
+| `ClankerMono-Emoji.woff2` | Clanker Mono Emoji | 2.5 MB | Web (`@font-face`) |
+| `ClankerMono-Emoji.ttf` | Clanker Mono Emoji | 5.9 MB | Desktop / fallback |
 | `ClankerMono-NF.ttf` | Clanker Mono NF | 6.1 MB | Regular with Nerd Fonts icons and Hangul, no emoji |
+| `ClankerTwemoji.ttf` | Clanker Twemoji | 1.8 MB | Color emoji font alone, for desktop use |
+| `ClankerTwemoji.woff2` | Clanker Twemoji | 0.6 MB | Color emoji font alone, for the web |
+
+Clanker Twemoji is the Twemoji 17.0.3 graphics as a COLRv0 font, with every emoji one em wide, and it is what the Emoji build merges. It supports 100% of the fully qualified sequences of Emoji 15.0 and 99.5% of those in the current Unicode list; Twemoji 17 has no artwork for the 19 added since. Twemoji draws every family sequence with one generic family icon.
 
 The Nerd Fonts icons are from Nerd Fonts 3.5.1, whose Material Design icons sit at U+F0001 to U+F1AF0. The earlier builds had the 2.3.0-RC icons, where those icons were at U+F500 to U+FD46, and that range is no longer mapped. D2Coding's own glyphs are kept wherever the patcher overwrote them, such as the Powerline symbols.
 
@@ -36,6 +40,7 @@ The zero is slashed by default. Turning on the `cv01` OpenType feature, also reg
 - `build_fonts.py` - builds the base, NF, and Emoji fonts from D2Coding's ligature Regular and Bold releases
 - `rename_font.py` - renames a modified D2Coding build and gives it the family, style, version, and description records, keeping the credits and license records of the font it came from
 - `build_chart_font.sh` - builds `ClankerMono.ttf`, a 101 KB TTF for matplotlib charts from `ClankerMono-Regular.ttf`, covering Latin-1, punctuation, currency, arrows, and math, since matplotlib cannot read WOFF2
+- `build_twemoji.py` - builds the Clanker Twemoji fonts from the SVG graphics of a Twemoji release with [nanoemoji](https://github.com/googlefonts/nanoemoji)
 - `merge_twemoji.py` - merges a Twemoji COLRv0 font into any TrueType font
 - `emoji-test.py` - tests emoji coverage (supports .ttf, .otf, .woff2)
 - `font-density.py` - measures information density of all fonts in [programmingfonts](https://github.com/braver/programmingfonts)
@@ -44,13 +49,16 @@ The zero is slashed by default. Turning on the `cv01` OpenType feature, also reg
 ### Rebuild
 
 ```sh
-# Patch D2Coding Regular with the icons of a Nerd Fonts release (FontPatcher.zip, unpacked)
-# and build every font. The ligature fonts are in the D2Coding release archive and the
-# Twemoji COLRv0 font is a mozilla/twemoji-colr release
+# Build the Twemoji font from the SVG graphics of a Twemoji release (jdecked/twemoji 17.0.3)
+uv run --with fonttools --with brotli --with nanoemoji python build_twemoji.py \
+  --svg twemoji/assets/svg --emoji-test emoji-test.txt
+
+# Patch D2Coding Regular with the icons of a Nerd Fonts release (FontPatcher.zip, unpacked),
+# then build the other fonts. The ligature fonts are in the D2Coding release archive
 ./patch_nerd_fonts.sh FontPatcher D2Codingligature-Regular.ttf patched
 uv run --with fonttools --with brotli python build_fonts.py \
   --regular D2Codingligature-Regular.ttf --bold D2Codingligature-Bold.ttf \
-  --icons patched/D2KodingLigatureNerdFont-Regular.ttf --twemoji twemoji-colr.ttf
+  --icons patched/D2KodingLigatureNerdFont-Regular.ttf --twemoji ClankerTwemoji.ttf
 
 # Website and chart subsets
 ./build_web_font.sh

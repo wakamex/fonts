@@ -24,7 +24,7 @@ except ImportError:
     subprocess.run([sys.executable, "-m", "pip", "install", "uharfbuzz"])
     import uharfbuzz as hb
 
-EMOJI_TEST_URL = "https://unicode.org/Public/emoji/15.0/emoji-test.txt"
+EMOJI_TEST_URL = "https://unicode.org/Public/emoji/latest/emoji-test.txt"
 DEFAULT_FONT_URL = "https://mihaicosma.com/ClankerMono-NF.ttf"
 EMOJI_TEST_FILE = os.path.join(os.path.dirname(__file__), "emoji-test.txt")
 
