@@ -2,16 +2,22 @@
 
 ## Clanker Mono: D2Coding + Nerd Fonts + Twemoji
 
-Clanker Mono is the D2Coding 1.3.3 ligature font by NAVER patched with Nerd Font icons, with variants adding Twemoji COLRv0 color emoji and leaving out Korean (Hangul) to keep the file size reasonable. D2Coding's license reserves the name "D2Coding", so these modified builds are renamed. They carry D2Coding 1.3.3's credits; 1.3.3 changed only metadata from 1.3.2, which these were built from.
-
-These builds also fix the [upstream 18 ppem native-hinting bug](https://github.com/naver/d2codingfont/issues/107) that lifts Latin `i` and two related Cyrillic glyphs one pixel above the baseline. D2Coding 1.3.3 still has it.
+Clanker Mono is the [D2Coding](https://github.com/naver/d2-coding-font) 1.4.0 ligature font by NAVER with tighter line spacing. Variants add [Nerd Fonts](https://www.nerdfonts.com/) icons and [Twemoji](https://github.com/jdecked/twemoji) color emoji (COLRv0), and the emoji build leaves out Korean (Hangul) syllables to keep the file size reasonable. D2Coding's license reserves the name "D2Coding", so these modified builds are renamed. They carry D2Coding 1.4.0's credits and version.
 
 | File | Family | Size | Use |
 |------|--------|------|-----|
-| `ClankerMono-web.woff2` | Clanker Mono | 96 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
+| `ClankerMono-Regular.ttf` | Clanker Mono | 4.1 MB | Base build with Hangul, without icons or emoji |
+| `ClankerMono-Bold.ttf` | Clanker Mono | 4.4 MB | Bold of the base build |
+| `ClankerMono-web.woff2` | Clanker Mono | 91 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
 | `ClankerMono-Emoji.woff2` | Clanker Mono Emoji | 1.9 MB | Web (`@font-face`) |
-| `ClankerMono-Emoji.ttf` | Clanker Mono Emoji | 4.2 MB | Desktop / fallback |
-| `ClankerMono-NF.ttf` | Clanker Mono NF | 5.1 MB | Base build: Nerd Fonts only, no emoji, tighter line spacing |
+| `ClankerMono-Emoji.ttf` | Clanker Mono Emoji | 4.0 MB | Desktop / fallback |
+| `ClankerMono-NF.ttf` | Clanker Mono NF | 4.8 MB | Regular with Nerd Fonts icons and Hangul, no emoji |
+
+The Nerd Fonts icons are the 2.3.0-RC glyphs, copied unchanged into each D2Coding release.
+
+### Dotted zero
+
+The zero is slashed by default. Turning on the `cv01` OpenType feature, also registered as `ss01`, selects D2Coding's dotted zero, for example with `font-feature-settings: 'cv01' 1;` in CSS.
 
 ### Web usage
 
@@ -22,40 +28,36 @@ These builds also fix the [upstream 18 ppem native-hinting bug](https://github.c
 }
 ```
 
-`ClankerMono-web.woff2` is built from `ClankerMono-NF.ttf`, so it retains the tighter vertical metrics. It covers Latin, Greek, punctuation, currency, arrows, mathematical operators, box drawing, and common technical symbols. The website uses the browser's fallback fonts for emoji.
+`ClankerMono-web.woff2` is built from `ClankerMono-Regular.ttf`, so it has the same tighter vertical metrics. It covers Latin, Greek, punctuation, currency, arrows, mathematical operators, box drawing, and common technical symbols. The website uses the browser's fallback fonts for emoji.
 
 ### Tools
 
-- `rename_font.py` — renames a modified D2Coding build and gives it D2Coding 1.3.3's credits and license records
-- `build_chart_font.sh` — builds `ClankerMono.ttf`, a 102 KB TTF for matplotlib charts from `ClankerMono-NF.ttf`, covering Latin-1, punctuation, currency, arrows, and math, since matplotlib cannot read WOFF2
-
-- `merge_twemoji.py` — merges a Twemoji COLRv0 font into any TrueType font
-- `emoji-test.py` — tests emoji coverage (supports .ttf, .otf, .woff2)
-- `font-density.py` — measures information density of all fonts in [programmingfonts](https://github.com/braver/programmingfonts)
-- `fix_d2coding_i_hint.py` — adds D2Coding's missing 18 ppem corrections for Latin `i` and the two affected Cyrillic `i` glyphs, preventing them from rendering one pixel above the baseline
-- `audit_d2coding_hints.py` — scans every Unicode glyph for an isolated baseline lift associated with a missing TrueType delta and writes a self-contained HTML specimen report
+- `build_fonts.py` - builds the base, NF, and Emoji fonts from D2Coding's ligature Regular and Bold releases
+- `rename_font.py` - renames a modified D2Coding build and gives it the family, style, version, and description records, keeping the credits and license records of the font it came from
+- `build_chart_font.sh` - builds `ClankerMono.ttf`, a 101 KB TTF for matplotlib charts from `ClankerMono-Regular.ttf`, covering Latin-1, punctuation, currency, arrows, and math, since matplotlib cannot read WOFF2
+- `merge_twemoji.py` - merges a Twemoji COLRv0 font into any TrueType font
+- `emoji-test.py` - tests emoji coverage (supports .ttf, .otf, .woff2)
+- `font-density.py` - measures information density of all fonts in [programmingfonts](https://github.com/braver/programmingfonts)
+- `audit_d2coding_hints.py` - scans every Unicode glyph for an isolated baseline lift associated with a missing TrueType delta and writes a self-contained HTML specimen report
 
 ### Rebuild
 
 ```sh
-# Repair the affected D2Coding i-family native hints after regenerating a font
-uv run --with fonttools --with brotli python fix_d2coding_i_hint.py ClankerMono-NF.ttf
-
-# Audit an upstream or generated font and create a screenshot-ready report
-uv run --with fonttools --with freetype-py python audit_d2coding_hints.py FONT.ttf --output hint-audit.html
-
-# Rename a modified build
-uv run --with fonttools --with brotli python rename_font.py SOURCE.ttf OUTPUT.ttf "Clanker Mono NF" "what was changed"
+# Build every font. The ligature fonts are in the D2Coding release archive, the Twemoji
+# COLRv0 font is a mozilla/twemoji-colr release, and --icons is the previous ClankerMono-NF.ttf
+uv run --with fonttools --with brotli python build_fonts.py \
+  --regular D2Codingligature-Regular.ttf --bold D2Codingligature-Bold.ttf \
+  --icons ClankerMono-NF.ttf --twemoji twemoji-colr.ttf
 
 # Website and chart subsets
 ./build_web_font.sh
 ./build_chart_font.sh
 
-# 1. Get a Twemoji COLRv0 font (e.g. from mozilla/twemoji-colr releases)
-# 2. Merge into base font
-python3 merge_twemoji.py base.ttf twemoji-colr.ttf output.ttf
-# 3. Validate
-python3 emoji-test.py output.ttf
+# Validate emoji coverage
+python3 emoji-test.py ClankerMono-Emoji.ttf
+
+# Audit a font and create a screenshot-ready report
+uv run --with fonttools --with freetype-py python audit_d2coding_hints.py FONT.ttf --output hint-audit.html
 ```
 
 ## Information density (chars per 1000×1000px at 16px, 1.4 line spacing)
