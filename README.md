@@ -9,11 +9,11 @@ Clanker Mono is the [D2Coding](https://github.com/naver/d2-coding-font) 1.4.0 li
 | `ClankerMono-Regular.ttf` | Clanker Mono | 4.1 MB | Base build with Hangul, without icons or emoji |
 | `ClankerMono-Bold.ttf` | Clanker Mono | 4.4 MB | Bold of the base build |
 | `ClankerMono-web.woff2` | Clanker Mono | 91 KB | Website subset without Hangul, Nerd Fonts private-use glyphs, or emoji |
-| `ClankerMono-Emoji.woff2` | Clanker Mono Emoji | 1.9 MB | Web (`@font-face`) |
-| `ClankerMono-Emoji.ttf` | Clanker Mono Emoji | 4.0 MB | Desktop / fallback |
-| `ClankerMono-NF.ttf` | Clanker Mono NF | 4.8 MB | Regular with Nerd Fonts icons and Hangul, no emoji |
+| `ClankerMono-Emoji.woff2` | Clanker Mono Emoji | 2.4 MB | Web (`@font-face`) |
+| `ClankerMono-Emoji.ttf` | Clanker Mono Emoji | 5.3 MB | Desktop / fallback |
+| `ClankerMono-NF.ttf` | Clanker Mono NF | 6.1 MB | Regular with Nerd Fonts icons and Hangul, no emoji |
 
-The Nerd Fonts icons are the 2.3.0-RC glyphs, copied unchanged into each D2Coding release.
+The Nerd Fonts icons are from Nerd Fonts 3.5.1, whose Material Design icons sit at U+F0001 to U+F1AF0. The earlier builds had the 2.3.0-RC icons, where those icons were at U+F500 to U+FD46, and that range is no longer mapped. D2Coding's own glyphs are kept wherever the patcher overwrote them, such as the Powerline symbols.
 
 ### Dotted zero
 
@@ -32,6 +32,7 @@ The zero is slashed by default. Turning on the `cv01` OpenType feature, also reg
 
 ### Tools
 
+- `patch_nerd_fonts.sh` - patches D2Coding Regular with the Nerd Fonts icons; `build_fonts.py` takes the icon glyphs from its output
 - `build_fonts.py` - builds the base, NF, and Emoji fonts from D2Coding's ligature Regular and Bold releases
 - `rename_font.py` - renames a modified D2Coding build and gives it the family, style, version, and description records, keeping the credits and license records of the font it came from
 - `build_chart_font.sh` - builds `ClankerMono.ttf`, a 101 KB TTF for matplotlib charts from `ClankerMono-Regular.ttf`, covering Latin-1, punctuation, currency, arrows, and math, since matplotlib cannot read WOFF2
@@ -43,11 +44,13 @@ The zero is slashed by default. Turning on the `cv01` OpenType feature, also reg
 ### Rebuild
 
 ```sh
-# Build every font. The ligature fonts are in the D2Coding release archive, the Twemoji
-# COLRv0 font is a mozilla/twemoji-colr release, and --icons is the previous ClankerMono-NF.ttf
+# Patch D2Coding Regular with the icons of a Nerd Fonts release (FontPatcher.zip, unpacked)
+# and build every font. The ligature fonts are in the D2Coding release archive and the
+# Twemoji COLRv0 font is a mozilla/twemoji-colr release
+./patch_nerd_fonts.sh FontPatcher D2Codingligature-Regular.ttf patched
 uv run --with fonttools --with brotli python build_fonts.py \
   --regular D2Codingligature-Regular.ttf --bold D2Codingligature-Bold.ttf \
-  --icons ClankerMono-NF.ttf --twemoji twemoji-colr.ttf
+  --icons patched/D2KodingLigatureNerdFont-Regular.ttf --twemoji twemoji-colr.ttf
 
 # Website and chart subsets
 ./build_web_font.sh
