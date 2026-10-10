@@ -2,7 +2,16 @@
 
 ## Clanker Mono: D2Coding + Nerd Fonts + Twemoji
 
-Clanker Mono is the [D2Coding](https://github.com/naver/d2-coding-font) 1.4.0 ligature font by NAVER with tighter line spacing. Variants add [Nerd Fonts](https://www.nerdfonts.com/) icons and [Twemoji](https://github.com/jdecked/twemoji) color emoji (COLRv0), and the emoji build leaves out Korean (Hangul) syllables to keep the file size reasonable. D2Coding's license reserves the name "D2Coding", so these modified builds are renamed. They carry D2Coding 1.4.0's credits and version.
+Clanker Mono is [D2Coding](https://github.com/naver/d2-coding-font) 1.4.0, NAVER's monospaced Korean and Latin coding font with ligatures. D2Coding's license reserves the name "D2Coding", so these modified builds are renamed. They carry D2Coding 1.4.0's credits and version.
+
+### What Clanker Mono changes in D2Coding
+
+- Tighter line spacing in Regular and Bold: the line gap in the `hhea` table is removed, which takes the line height that browsers and macOS apps use from 1.16 em to 1.08 em. Windows line height and every glyph advance are unchanged.
+- Nerd Fonts icons (NF and Emoji builds): the 10,400 glyphs of [Nerd Fonts](https://www.nerdfonts.com/) 3.5.1 for the codepoints D2Coding does not map, so icons work without a separate symbols font.
+- Color emoji (Emoji build): [Twemoji](https://github.com/jdecked/twemoji) 17.0.3 as a COLRv0 font merged in. Hangul syllables are removed from this build to keep it small.
+- A website subset and a chart subset, which are small files cut from the base Regular build.
+
+Everything else is D2Coding as released: the outlines, glyph widths, hinting, coding ligatures and Hangul are not redrawn or edited. A rebuild is checked against the upstream fonts to show that.
 
 | File | Family | Size | Use |
 |------|--------|------|-----|
